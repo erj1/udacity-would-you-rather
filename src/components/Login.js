@@ -1,51 +1,39 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { handleUserData } from "../actions/users";
+import { handleGetUsers } from "../actions/users";
 
 
 class Login extends Component {
 
   componentDidMount() {
-    this.props.dispatch(handleUserData());
+    this.props.dispatch(handleGetUsers());
   }
 
   render() {
-
-    const {isUserDataLoading, users} = this.props;
-
-    // console.log('Users: ', users);
-    console.log(`Is User Data Loading: ${isUserDataLoading}`);
-
+    const {users} = this.props;
     return (
       <div className="section">
         <div className="container">
           Login
-          {
-            isUserDataLoading === false && (
-              <form>
-
-                <div className="field">
-                  <label className="label">Select Your User</label>
-                  <div className="control">
-                    <div className="select">
-                      <select>
-                        {users.map(user => {
-                          <option key={user.id} value={user.id}>{user.name}</option>
-                        })}
-                      </select>
-                    </div>
-                  </div>
+          <form>
+            <div className="field">
+              <label className="label">Select Your User</label>
+              <div className="control">
+                <div className="select">
+                  <select>
+                    {users.map(user => (
+                      <option key={user.id} value={user.id}>{user.name}</option>
+                    ))}
+                  </select>
                 </div>
-
-                <div className="field">
-                  <div className="control">
-                    <button className="button is-link">Log In As User</button>
-                  </div>
-                </div>
-
-              </form>
-            )
-          }
+              </div>
+            </div>
+            <div className="field">
+              <div className="control">
+                <button className="button is-link">Log In As User</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     );
@@ -53,9 +41,8 @@ class Login extends Component {
 }
 
 function mapStateToProps({users}) {
-  console.log('Users: ', users);
   return {
-    users: users.users
+    users: Object.values(users)
   }
 }
 

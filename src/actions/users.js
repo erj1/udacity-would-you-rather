@@ -1,40 +1,20 @@
 import { fetchUserData } from "../api";
 
-export const LOADING_USERS = 'LOADING_USERS';
-export const LOADING_USERS_SUCCESS = 'LOADING_USERS_SUCCESS';
-export const LOADING_USERS_FAILURE = 'LOADING_USERS_FAILURE';
+export const GET_USERS = 'GET_USERS';
 
-export function handleUserData() {
+
+export function handleGetUsers() {
   return (dispatch) => {
-
-    dispatch(loadingUsers());
-
     return fetchUserData()
-      .then((users) => {
-        dispatch(loadingUsersSuccess(users));
-      }, (err) => {
-        dispatch(loadingUsersFailure());
-      })
+      .then(({users}) => {
+        dispatch(getUsers(users));
+      });
   }
 }
 
-export function loadingUsers() {
+export function getUsers(users) {
   return {
-    type: LOADING_USERS,
-  }
-}
-
-export function loadingUsersSuccess(users) {
-  return {
-    type: LOADING_USERS_SUCCESS,
-    data: {
-      users
-    }
+    type: GET_USERS,
+    users
   };
-}
-
-export function loadingUsersFailure() {
-  return {
-    type: LOADING_USERS_FAILURE
-  }
 }
