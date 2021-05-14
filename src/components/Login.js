@@ -5,22 +5,43 @@ import { handleGetUsers } from "../actions/users";
 
 class Login extends Component {
 
+  state = {
+    authedUser: '',
+
+  }
+
   componentDidMount() {
     this.props.dispatch(handleGetUsers());
   }
 
+  handleFormSubmission = (event) => {
+    event.preventDefault();
+    // TODO: Set authedUser in the store
+    // TODO: Redirect to the dashboard
+  }
+
+  handleUserSelection = (event) => {
+    const user = event.target.value;
+    this.setState(() => ({
+      authedUser: user
+    }));
+  }
+
   render() {
-    const {users} = this.props;
+    const { users } = this.props;
+    const { authedUser } = this.state;
+
     return (
       <div className="section">
         <div className="container">
           Login
-          <form>
+          <form onSubmit={this.handleFormSubmission}>
             <div className="field">
               <label className="label">Select Your User</label>
               <div className="control">
                 <div className="select">
-                  <select>
+                  <select value={authedUser} onChange={this.handleUserSelection}>
+                    <option value="">Select Your User</option>
                     {users.map(user => (
                       <option key={user.id} value={user.id}>{user.name}</option>
                     ))}
