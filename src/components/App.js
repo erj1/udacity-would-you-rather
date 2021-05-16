@@ -1,14 +1,36 @@
-import React from 'react';
-import Dashboard from "./Dashboard";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { loadInitialData } from '../actions/shared';
+// import Dashboard from "./Dashboard";
+import QuestionDetails from "./QuestionDetails";
 
-function App() {
-  return (
-    <section className="section">
-      <div className="container">
-        <Dashboard authedUser='shellylong' />
-      </div>
-    </section>
-  );
+class App extends Component {
+
+  componentDidMount() {
+    this.props.dispatch(loadInitialData());
+  }
+
+  render() {
+    const { loading } = this.props;
+    return (
+      <section className="section">
+        <div className="container is-max-desktop">
+          {
+            this.loading === true
+              ? null
+              : <QuestionDetails id='xj352vofupe1dqz9emx13r' authedUser='monicafields' />
+          }
+          {/*<Dashboard authedUser='shellylong' />*/}
+        </div>
+      </section>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps({users, questions}) {
+  return {
+    loading: users === null || questions === null
+  };
+}
+
+export default connect()(App);

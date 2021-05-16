@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import '@creativebulma/bulma-badge/dist/bulma-badge.min.css';
 import { handleGetUsers } from "../actions/users";
 import { handleGetQuestions } from "../actions/questions";
-import Question from "./Question";
+import Questions from "./Questions";
 
 
 class Dashboard extends Component {
 
   componentDidMount() {
     this.props.dispatch(handleGetUsers());
-    this.props.dispatch(handleGetQuestions())
+    this.props.dispatch(handleGetQuestions());
   }
 
   render() {
@@ -27,25 +27,8 @@ class Dashboard extends Component {
               <li><a href="#">Past Questions</a></li>
             </ul>
           </div>
-
-
-
-          <div>
-            <h2>Questions</h2>
-            {unanswered_questions && unanswered_questions.map(question => (
-              <Question key={question} id={question} />
-            ))}
-          </div>
-
-          <hr/>
-
-          <div>
-            <h2>Past Questions</h2>
-            {answered_questions && answered_questions.map(question => (
-              <Question key={question} id={question} />
-            ))}
-          </div>
-
+          <Questions title="Questions" questions={unanswered_questions} />
+          <Questions title="Past Questions" questions={answered_questions} />
         </div>
       </div>
     );
