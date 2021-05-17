@@ -1,14 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Divider from "./Divider";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import OptionResult from "./OptionResult";
+import OptionQuestion from "./OptionQuestion";
 
 
 class QuestionDetails extends Component {
 
   state = {
     selectedOption: "" // either optionOne or optionTwo
+  }
+
+  handleSubmit = (e) => {
+    const { selectedOption } = this.state;
+    e.preventDefault();
+
+    if (selectedOption !== "") {
+      console.log(`User Selected: ${selectedOption}`);
+    }
   }
 
   selectOption = (option) => {
@@ -41,43 +50,69 @@ class QuestionDetails extends Component {
   }
 
   renderOption(option) {
-    const { question } = this.props;
+    const optionText = this.props.question[option].text;
     const { selectedOption } = this.state;
-    const classNames = ['button', 'is-large', 'is-fullwidth', 'is-capitalized py-6']
-    const selectedClassNames = ['is-active', 'is-primary', 'is-light']
 
-    return question && (
-      <div className="block" key={option}>
-        <button
-          className={(selectedOption === option ? classNames.concat(selectedClassNames) : classNames).join(' ')}
-          onClick={() => this.selectOption(option)}
-        >
-          {selectedOption === option && (
-            <span className="icon is-medium">
-              <FontAwesomeIcon icon={faCheck} />
-            </span>
-          )}
-          <span>{ question[option].text }</span>
-        </button>
+    return (
+      <OptionQuestion
+        handleSelect={() => this.selectOption(option)}
+        optionText={optionText}
+        isSelected={ selectedOption === option }
+      />
+    )
+
+  }
+
+  votePercentage = (optionVoteTotal, totalVotes) => (
+    optionVoteTotal > 0 ? ((optionVoteTotal / totalVotes) * 100).toFixed(0) : 0
+  );
+
+  renderAnsweredQuestion() {
+    const { optionOne, optionTwo } = this.props.question;
+    const optionOneVotes = optionOne.votes.length;
+    const optionTwoVotes = optionTwo.votes.length;
+    const totalVotes = optionOneVotes + optionTwoVotes;
+    return (
+      <div className="block">
+        <OptionResult percentage={ this.votePercentage(optionOneVotes, totalVotes) } text={ optionOne.text } />
+        <Divider title="or" />
+        <OptionResult percentage={ this.votePercentage(optionTwoVotes, totalVotes) } text={ optionTwo.text } />
       </div>
     )
   }
 
+  renderUnansweredQuestion() {
+    const { question } = this.props;
+    const { selectedOption } = this.state;
+    return (
+      <div className="block">
+        { this.renderOption('optionOne') }
+        <Divider title="or" />
+        { this.renderOption('optionTwo') }
+        <div className="block">
+          <button
+            className="button is-primary is-large is-fullwidth"
+            type="submit"
+            disabled={selectedOption === ""}
+            onClick={this.handleSubmit}
+          >Submit</button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { author } = this.props;
+    const { author, hasAnswer } = this.props;
     return author && (
       <div>
         <div className="block">
           { this.renderAuthorDetails() }
         </div>
-        <div className="block">
-          { this.renderOption('optionOne') }
-          <Divider title="or" />
-          { this.renderOption('optionTwo') }
-          <div className="block">
-            <button className="button is-primary is-large is-fullwidth">Submit</button>
-          </div>
-        </div>
+        {
+          hasAnswer
+          ? this.renderAnsweredQuestion()
+          : this.renderUnansweredQuestion()
+        }
       </div>
     )
   }
@@ -87,9 +122,15 @@ function mapStateToProps({users, questions}, {id, authedUser}) {
   const question = questions ? questions[id] : null;
   const author = users && question ? users[question.author] : null;
 
+  const hasAnswer = question && (
+    question.optionTwo.votes.includes(authedUser)
+    || question.optionTwo.votes.includes(authedUser)
+  );
+
   return {
     author,
     question,
+    hasAnswer,
   }
 }
 
