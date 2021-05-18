@@ -19,8 +19,6 @@ class Dashboard extends Component {
       <div className="section">
         <div className="container">
 
-          <h2>Hello, {user && user.name}</h2>
-
           <div className="tabs is-large is-centered">
             <ul>
               <li className="is-active"><a href="#">Questions</a></li>
