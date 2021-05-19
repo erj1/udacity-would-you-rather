@@ -20,6 +20,14 @@ class QuestionDetails extends Component {
     }
   }
 
+  isAnswered = () => {
+    const { question, authedUser } = this.props;
+    return (
+      question.optionOne.votes.includes(authedUser)
+      || question.optionTwo.votes.includes(authedUser)
+    );
+  }
+
   selectOption = (option) => {
     this.setState(() => ({
       selectedOption: option
@@ -35,7 +43,7 @@ class QuestionDetails extends Component {
         <div className="media">
           <figure className="media-left">
             <p className="image is-96x96">
-              <img src={author.avatarURL} alt={`Avatar of ${author.name}`}/>
+              <img className="is-rounded" src={author.avatarURL} alt={`Avatar of ${author.name}`}/>
             </p>
           </figure>
           <div className="media-content">
@@ -104,12 +112,12 @@ class QuestionDetails extends Component {
   render() {
     const { author, hasAnswer } = this.props;
     return author && (
-      <div>
+      <div className="mt-6">
         <div className="block">
           { this.renderAuthorDetails() }
         </div>
         {
-          hasAnswer
+          this.isAnswered()
           ? this.renderAnsweredQuestion()
           : this.renderUnansweredQuestion()
         }
@@ -118,19 +126,15 @@ class QuestionDetails extends Component {
   }
 }
 
-function mapStateToProps({users, questions}, {id, authedUser}) {
+function mapStateToProps({users, questions, authedUser}, props) {
+  const id = props.match.params.id;
   const question = questions ? questions[id] : null;
   const author = users && question ? users[question.author] : null;
-
-  const hasAnswer = question && (
-    question.optionTwo.votes.includes(authedUser)
-    || question.optionTwo.votes.includes(authedUser)
-  );
 
   return {
     author,
     question,
-    hasAnswer,
+    authedUser
   }
 }
 

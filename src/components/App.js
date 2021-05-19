@@ -7,6 +7,8 @@ import Dashboard from "./Dashboard";
 import NavBar from "./NavBar";
 import QuestionDetails from "./QuestionDetails";
 import Login from "./Login";
+import QuestionNew from "./QuestionNew";
+import Leaderboard from "./Leaderboard";
 
 class App extends Component {
 
@@ -18,10 +20,15 @@ class App extends Component {
     const { authedUser } = this.props;
     return authedUser === null
       ? <Login />
-      : <div>
-          <NavBar />
-          <Route path='/' exact component={Dashboard} />
-        </div>
+      : <section className="section">
+          <div className="container is-max-desktop">
+            <NavBar />
+            <Route path='/' exact component={Dashboard} />
+            <Route path='/questions/:id' component={QuestionDetails} />
+            <Route path='/questions/new' component={QuestionNew} />
+            <Route path='/leaderboard' component={Leaderboard} />
+          </div>
+        </section>
   }
 
   render() {
@@ -30,11 +37,7 @@ class App extends Component {
       <Fragment>
         <LoadingBar />
         <BrowserRouter>
-          <section className="section">
-            <div className="container is-max-desktop">
-              { loading === true ? null : this.renderApp() }
-            </div>
-          </section>
+          { loading === true ? null : this.renderApp() }
         </BrowserRouter>
       </Fragment>
     );

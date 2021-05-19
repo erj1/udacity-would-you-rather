@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import logo from "../assets/images/logo.png";
 import { authedUserLogout } from "../actions/authedUser";
 
 class NavBar extends Component {
@@ -18,18 +17,16 @@ class NavBar extends Component {
 
   handleLogout = () => {
     this.props.dispatch(authedUserLogout());
+    this.props.history.push('/');
   }
 
   render() {
     const { isActive } = this.state;
-    const { authedUser } = this.props;
+    const { user } = this.props;
 
     return (
       <nav className="navbar">
         <div className="navbar-brand">
-          <NavLink to="/" className="navbar-item">
-            <img src={logo} alt="Would Your Rather Logo" className="image"/>
-          </NavLink>
           <a role="button"
              className={ isActive ? "navbar-burger is-active" : "navbar-burger"}
              onClick={this.handleToggleNavbar}>
@@ -40,14 +37,14 @@ class NavBar extends Component {
         </div>
         <div className={ isActive ? "navbar-menu is-active" : "navbar-menu"}>
           <div className="navbar-start">
-            <NavLink to="/" className="navbar-item">Dashboard</NavLink>
-            <div className="navbar-item">New Question</div>
-            <div className="navbar-item">Leaderboard</div>
+            <NavLink to="/" exact className="navbar-item is-tab" activeClassName="is-active">Dashboard</NavLink>
+            <NavLink to="/questions/new" className="navbar-item is-tab" activeClassName="is-active">New Question</NavLink>
+            <NavLink to="/leaderboard" className="navbar-item is-tab" activeClassName="is-active">Leaderboard</NavLink>
           </div>
           <div className="navbar-end">
-            <div className="navbar-item">Welcome, { authedUser }</div>
+            <div className="navbar-item">Welcome, { user.name }</div>
             <div className="navbar-item">
-              <a role="button" onClick={this.handleLogout}>Log Out</a>
+              <a className="button" role="button" onClick={this.handleLogout}>Log Out</a>
             </div>
           </div>
         </div>
@@ -56,10 +53,10 @@ class NavBar extends Component {
   }
 }
 
-function mapStateToProps({authedUser}) {
+function mapStateToProps({authedUser, users}) {
   return {
-    authedUser
+    user: users[authedUser]
   }
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default withRouter(connect(mapStateToProps)(NavBar));
