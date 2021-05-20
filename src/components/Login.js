@@ -32,7 +32,7 @@ class Login extends Component {
     const { authedUser } = this.state;
 
     return (
-      <div className="hero is-primary is-fullheight">
+      <div className="hero is-link is-fullheight">
         <div className="hero-body">
           <div className="container">
             <div className="columns">
@@ -57,7 +57,7 @@ class Login extends Component {
                   </div>
                   <div className="field">
                     <div className="control">
-                      <button className="button is-link is-fullwidth">Log In As User</button>
+                      <button className="button is-link is-fullwidth" disabled={authedUser === ''}>Log In As User</button>
                     </div>
                   </div>
                 </form>

@@ -1,4 +1,4 @@
-import {_getUsers, _getQuestions } from "./_DATA";
+import {_getUsers, _getQuestions, _saveQuestionAnswer } from "./_DATA";
 
 
 export function fetchAllData() {
@@ -18,4 +18,12 @@ export function fetchQuestionData() {
   return Promise.all([
     _getQuestions()
   ]).then(([questions]) => ({questions}));
+}
+
+export function postQuestionAnswer({ authedUser, question_id, answer}) {
+  return _saveQuestionAnswer({
+    authedUser,
+    answer,
+    qid: question_id
+  });
 }

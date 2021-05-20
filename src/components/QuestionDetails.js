@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Divider from "./Divider";
 import OptionResult from "./OptionResult";
 import OptionQuestion from "./OptionQuestion";
+import { handleSaveQuestionAnswer } from "../actions/questions";
 
 
 class QuestionDetails extends Component {
@@ -12,11 +13,18 @@ class QuestionDetails extends Component {
   }
 
   handleSubmit = (e) => {
-    const { selectedOption } = this.state;
     e.preventDefault();
+
+    const { selectedOption } = this.state;
+    const { authedUser, question } = this.props;
 
     if (selectedOption !== "") {
       console.log(`User Selected: ${selectedOption}`);
+      this.props.dispatch(handleSaveQuestionAnswer({
+        authedUser,
+        question_id: question.id,
+        answer: selectedOption
+      }))
     }
   }
 
