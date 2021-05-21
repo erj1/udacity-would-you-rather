@@ -1,4 +1,4 @@
-import {_getUsers, _getQuestions, _saveQuestionAnswer } from "./_DATA";
+import {_getUsers, _getQuestions, _saveQuestionAnswer, _saveQuestion } from "./_DATA";
 
 
 export function fetchAllData() {
@@ -26,4 +26,8 @@ export function postQuestionAnswer({ authedUser, question_id, answer}) {
     answer,
     qid: question_id
   });
+}
+
+export function postQuestionData(question) {
+  return _saveQuestion(question);
 }

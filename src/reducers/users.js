@@ -1,4 +1,4 @@
-import { USER_ANSWER_SAVE, USER_GET_ALL } from "../actions/users";
+import { USER_ANSWER_SAVE, USER_GET_ALL, USER_QUESTION_SAVE } from "../actions/users";
 
 
 export default function users (state = {}, action) {
@@ -14,6 +14,15 @@ export default function users (state = {}, action) {
             ...user.answers,
             [action.question_id]: action.answer
           }
+        }
+      }
+
+    case USER_QUESTION_SAVE:
+      return {
+        ...state,
+        [action.authedUser]: {
+          ...state[action.authedUser],
+          questions: state[action.authedUser].questions.concat([action.question_id])
         }
       }
 

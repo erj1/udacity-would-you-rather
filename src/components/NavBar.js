@@ -38,7 +38,7 @@ class NavBar extends Component {
         <div className={ isActive ? "navbar-menu is-active" : "navbar-menu"}>
           <div className="navbar-start">
             <NavLink to="/" exact className="navbar-item is-tab" activeClassName="is-active">Dashboard</NavLink>
-            <NavLink to="/questions/new" className="navbar-item is-tab" activeClassName="is-active">New Question</NavLink>
+            <NavLink to="/add" className="navbar-item is-tab" activeClassName="is-active">New Question</NavLink>
             <NavLink to="/leaderboard" className="navbar-item is-tab" activeClassName="is-active">Leaderboard</NavLink>
           </div>
           <div className="navbar-end">

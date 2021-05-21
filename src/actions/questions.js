@@ -1,26 +1,11 @@
-import { fetchAllData, postQuestionAnswer } from "../api";
-import { getUsers } from "./users";
+import { postQuestionAnswer, postQuestionData } from "../api";
+import { saveUserQuestion, saveUserAnswer  } from "./users";
 import { hideLoading, showLoading } from "react-redux-loading";
-import { saveUserAnswer } from "./users";
 
+export const QUESTION_CREATE = 'QUESTION_CREATE';
 export const QUESTION_GET_ALL = 'QUESTION_GET_ALL';
 export const QUESTION_ANSWER_SAVE = 'QUESTION_ANSWER_SAVE';
 
-export function handleGetQuestions() {
-  return (dispatch) => {
-    return fetchAllData().then(({users, questions}) => {
-      dispatch(getUsers(users));
-      dispatch(getQuestions(questions));
-    });
-  }
-}
-
-export function getQuestions(questions) {
-  return {
-    type: QUESTION_GET_ALL,
-    questions
-  }
-}
 
 export function handleSaveQuestionAnswer(questionAnswer) {
   return (dispatch) => {
@@ -33,8 +18,38 @@ export function handleSaveQuestionAnswer(questionAnswer) {
       .then(() => dispatch(hideLoading()))
       .catch((e) => {
         console.warn('There was an error while attempting to save a question\'s answer.');
-        alert("We're sorry, but there was an error while attempting to save your answer.  Please try again.");
+        alert('We\'re sorry, but there was an error while attempting to save your answer.  Please try again.');
       });
+  }
+}
+
+export function handleCreateQuestion(question) {
+  return (dispatch) => {
+    dispatch(showLoading());
+    return postQuestionData(question)
+      .then((formattedQuestion) => {
+        dispatch(createQuestion(formattedQuestion));
+        dispatch(saveUserQuestion(formattedQuestion));
+      })
+      .then(() => dispatch(hideLoading()))
+      .catch((error) => {
+        console.warn('There was an error while attempting to save the new question.', error);
+        alert('We\'re sorry, but there was an error while attempting to create your new question.  Please try again.');
+      })
+  }
+}
+
+export function createQuestion(question) {
+  return {
+    type: QUESTION_CREATE,
+    question
+  }
+}
+
+export function getQuestions(questions) {
+  return {
+    type: QUESTION_GET_ALL,
+    questions
   }
 }
 

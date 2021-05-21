@@ -1,4 +1,4 @@
-import { QUESTION_ANSWER_SAVE, QUESTION_GET_ALL } from "../actions/questions";
+import { QUESTION_ANSWER_SAVE, QUESTION_CREATE, QUESTION_GET_ALL } from "../actions/questions";
 
 
 export default function questions (state={}, action) {
@@ -15,6 +15,12 @@ export default function questions (state={}, action) {
             votes: question[action.answer].votes.concat([action.authedUser])
           }
         }
+      }
+
+    case QUESTION_CREATE:
+      return {
+        ...state,
+        [action.question.id]: action.question
       }
 
     case QUESTION_GET_ALL:

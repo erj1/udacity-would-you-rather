@@ -25,7 +25,7 @@ class App extends Component {
             <NavBar />
             <Route path='/' exact component={Dashboard} />
             <Route path='/questions/:id' component={QuestionDetails} />
-            <Route path='/questions/new' component={QuestionNew} />
+            <Route path='/add' component={QuestionNew} />
             <Route path='/leaderboard' component={Leaderboard} />
           </div>
         </section>
