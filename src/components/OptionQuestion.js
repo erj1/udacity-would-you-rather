@@ -27,8 +27,6 @@ const OptionQuestion = (props) => {
       </button>
     </div>
   );
-
-
 }
 
 export default OptionQuestion;

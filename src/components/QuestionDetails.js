@@ -4,6 +4,7 @@ import Divider from "./Divider";
 import OptionResult from "./OptionResult";
 import OptionQuestion from "./OptionQuestion";
 import { handleSaveQuestionAnswer } from "../actions/questions";
+import { Error404 } from "./errors";
 
 
 class QuestionDetails extends Component {
@@ -84,21 +85,29 @@ class QuestionDetails extends Component {
   );
 
   renderAnsweredQuestion() {
+    const { authedUser } = this.props;
     const { optionOne, optionTwo } = this.props.question;
     const optionOneVotes = optionOne.votes.length;
     const optionTwoVotes = optionTwo.votes.length;
     const totalVotes = optionOneVotes + optionTwoVotes;
     return (
       <div className="block">
-        <OptionResult percentage={ this.votePercentage(optionOneVotes, totalVotes) } text={ optionOne.text } />
+        <OptionResult
+          isSelected={optionOne.votes.includes(authedUser)}
+          votes={optionOneVotes}
+          percentage={ this.votePercentage(optionOneVotes, totalVotes) }
+          text={ optionOne.text } />
         <Divider title="or" />
-        <OptionResult percentage={ this.votePercentage(optionTwoVotes, totalVotes) } text={ optionTwo.text } />
+        <OptionResult
+          isSelected={optionTwo.votes.includes(authedUser)}
+          votes={optionTwoVotes}
+          percentage={ this.votePercentage(optionTwoVotes, totalVotes) }
+          text={ optionTwo.text } />
       </div>
     )
   }
 
   renderUnansweredQuestion() {
-    const { question } = this.props;
     const { selectedOption } = this.state;
     return (
       <div className="block">
@@ -118,7 +127,12 @@ class QuestionDetails extends Component {
   }
 
   render() {
-    const { author, hasAnswer } = this.props;
+    const { author, question } = this.props;
+
+    if (!question) {
+      return <Error404 />
+    }
+
     return author && (
       <div className="mt-6">
         <div className="block">

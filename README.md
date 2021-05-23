@@ -8,7 +8,7 @@ to the "Would you rather..." project.
 This project allows you to answer "Would you rather..." questions proposed by other users.  It also
 provides you the ability to create your "Would you rather..." questions for others to answer.
 
-A leaderboard is used to show who is answering the most questions.
+A leaderboard is used to show who is answering and asking the most questions.
 
 ## Installation
 

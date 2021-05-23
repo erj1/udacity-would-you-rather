@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import '@creativebulma/bulma-badge/dist/bulma-badge.min.css';
-import Questions from "./Questions";
+import CurrentQuestions from './CurrentQuestions';
+import PastQuestions from "./PastQuestions";
 
 
 class Dashboard extends Component {
@@ -44,8 +45,8 @@ class Dashboard extends Component {
               ))}
             </ul>
           </div>
-          { activeTabName === this.tabs[0].name && <Questions questions={currentQuestions} /> }
-          { activeTabName === this.tabs[1].name && <Questions questions={pastQuestions} /> }
+          { activeTabName === "currentQuestions" && <CurrentQuestions questions={currentQuestions} /> }
+          { activeTabName === "pastQuestions" && <PastQuestions questions={pastQuestions} /> }
         </div>
       </div>
     );
@@ -54,8 +55,13 @@ class Dashboard extends Component {
 
 function mapStateToProps({users, questions, authedUser}) {
   const user = users[authedUser];
-  const pastQuestions = user ? Object.keys(user.answers) : null;
-  const currentQuestions = user ? Object.keys(questions).filter(id => !pastQuestions.includes(id)): null;
+
+  const pastQuestions = Object.keys(user.answers)
+    .sort((a, b) => questions[b].timestamp - questions[a].timestamp);
+
+  const currentQuestions = Object.keys(questions)
+    .filter(id => !pastQuestions.includes(id))
+    .sort((a, b) => questions[b].timestamp - questions[a].timestamp);
 
   return { user, pastQuestions, currentQuestions }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import clsx from "clsx";
 import { authedUserLogout } from "../actions/authedUser";
 
 class NavBar extends Component {
@@ -27,15 +28,15 @@ class NavBar extends Component {
     return (
       <nav className="navbar">
         <div className="navbar-brand">
-          <a role="button"
-             className={ isActive ? "navbar-burger is-active" : "navbar-burger"}
+          <button
+             className={ clsx('button navbar-burger', isActive && 'is-active') }
              onClick={this.handleToggleNavbar}>
             <span></span>
             <span></span>
             <span></span>
-          </a>
+          </button>
         </div>
-        <div className={ isActive ? "navbar-menu is-active" : "navbar-menu"}>
+        <div className={ clsx('navbar-menu', isActive && 'is-active') }>
           <div className="navbar-start">
             <NavLink to="/" exact className="navbar-item is-tab" activeClassName="is-active">Dashboard</NavLink>
             <NavLink to="/add" className="navbar-item is-tab" activeClassName="is-active">New Question</NavLink>
@@ -44,7 +45,7 @@ class NavBar extends Component {
           <div className="navbar-end">
             <div className="navbar-item">Welcome, { user.name }</div>
             <div className="navbar-item">
-              <a className="button" role="button" onClick={this.handleLogout}>Log Out</a>
+              <button className="button" onClick={this.handleLogout}>Log Out</button>
             </div>
           </div>
         </div>
