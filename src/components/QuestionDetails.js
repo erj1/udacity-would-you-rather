@@ -20,7 +20,6 @@ class QuestionDetails extends Component {
     const { authedUser, question } = this.props;
 
     if (selectedOption !== "") {
-      console.log(`User Selected: ${selectedOption}`);
       this.props.dispatch(handleSaveQuestionAnswer({
         authedUser,
         question_id: question.id,
@@ -44,7 +43,6 @@ class QuestionDetails extends Component {
   }
 
   renderAuthorDetails() {
-
     const { author } = this.props;
 
     if (author) {
@@ -64,20 +62,6 @@ class QuestionDetails extends Component {
         </div>
       );
     }
-  }
-
-  renderOption(option) {
-    const optionText = this.props.question[option].text;
-    const { selectedOption } = this.state;
-
-    return (
-      <OptionQuestion
-        handleSelect={() => this.selectOption(option)}
-        optionText={optionText}
-        isSelected={ selectedOption === option }
-      />
-    )
-
   }
 
   votePercentage = (optionVoteTotal, totalVotes) => (
@@ -108,12 +92,25 @@ class QuestionDetails extends Component {
   }
 
   renderUnansweredQuestion() {
+    const { optionOne, optionTwo } = this.props.question;
     const { selectedOption } = this.state;
     return (
       <div className="block">
-        { this.renderOption('optionOne') }
+
+        <OptionQuestion
+          handleSelect={() => this.selectOption('optionOne')}
+          optionText={ optionOne.text }
+          isSelected={ selectedOption === 'optionOne' }
+        />
+
         <Divider title="or" />
-        { this.renderOption('optionTwo') }
+
+        <OptionQuestion
+          handleSelect={() => this.selectOption('optionTwo')}
+          optionText={ optionTwo.text }
+          isSelected={ selectedOption === 'optionTwo' }
+        />
+
         <div className="block">
           <button
             className="button is-primary is-large is-fullwidth"
@@ -127,13 +124,13 @@ class QuestionDetails extends Component {
   }
 
   render() {
-    const { author, question } = this.props;
+    const { question } = this.props;
 
     if (!question) {
       return <Error404 />
     }
 
-    return author && (
+    return (
       <div className="mt-6">
         <div className="block">
           { this.renderAuthorDetails() }
@@ -150,14 +147,9 @@ class QuestionDetails extends Component {
 
 function mapStateToProps({users, questions, authedUser}, props) {
   const id = props.match.params.id;
-  const question = questions ? questions[id] : null;
-  const author = users && question ? users[question.author] : null;
-
-  return {
-    author,
-    question,
-    authedUser
-  }
+  const question = questions[id];
+  const author = users[question.author];
+  return {author, question, authedUser}
 }
 
 export default connect(mapStateToProps)(QuestionDetails);

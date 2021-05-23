@@ -1,6 +1,7 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import clsx from "clsx";
 
 const OptionQuestion = (props) => {
   const {
@@ -9,13 +10,15 @@ const OptionQuestion = (props) => {
     handleSelect,
   } = props;
 
-  const classNames = ['button', 'is-large', 'is-fullwidth', 'is-uppercase py-6']
-  const selectedClassNames = ['is-active', 'is-primary', 'is-light']
+  const styles = clsx(
+    'button', 'is-large', 'is-fullwidth', 'is-uppercase py-6',
+    isSelected && ['is-active', 'is-primary', 'is-light']
+  )
 
   return (
     <div className="block">
       <button
-        className={(isSelected ? classNames.concat(selectedClassNames) : classNames).join(' ')}
+        className={ styles }
         onClick={ () => handleSelect() }
       >
         {isSelected && (

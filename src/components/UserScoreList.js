@@ -10,7 +10,8 @@ const UserScoreList = (props) => {
       <UserScore
         key={user.id}
         user={user}
-        className={user.id === authedUser ? 'has-background-primary-light' : ''} />
+        isAuthedUser={ user.id === authedUser }
+      />
     ))
   );
 }

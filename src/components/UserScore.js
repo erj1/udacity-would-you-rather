@@ -1,12 +1,14 @@
 import React from "react";
+import clsx from "clsx";
 
 const UserScore = (props) => {
-  const { className, user } = props;
+  const { className, isAuthedUser, user } = props;
   const totalQuestions = user.questions.length || 0;
   const totalAnswers = Object.keys(user.answers).length || 0;
+  const styles = clsx(['media', 'box'], isAuthedUser && 'has-background-primary-light')
 
   return (
-      <article className={className ? `media box ${className}` : 'media box'}>
+      <article className={ styles }>
         <figure className="media-left">
           <p className="image is-128x128">
             <img className="is-rounded" src={user.avatarURL} alt={`Avatar of ${user.name}`}/>

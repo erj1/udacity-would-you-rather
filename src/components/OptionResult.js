@@ -6,8 +6,8 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons";
 const OptionResult = (props) => {
   const { percentage, isSelected, text, votes } = props;
   const styles = clsx(
-    "block has-text-centered is-uppercase is-relative",
-    isSelected && "has-background-primary-light has-text-primary-dark"
+    ['block', 'has-text-centered', 'is-uppercase', 'is-relative'],
+    isSelected && ['has-background-primary-light', 'has-text-primary-dark']
   )
 
   return (
