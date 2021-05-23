@@ -28,7 +28,7 @@ class App extends Component {
               <Route path='/' exact component={Dashboard} />
               <Route path='/questions/:id' component={QuestionDetails} />
               <Route path='/add' component={QuestionNew} />
-              <Route path='/leaderboard' component={Leaderboard} />
+              <Route path='/leaderboard' render={() => (<Leaderboard displayUsers="3" />)} />
               <Route component={Error404} />
             </Switch>
           </div>

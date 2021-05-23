@@ -4,17 +4,14 @@ import UserScoreList from "./UserScoreList";
 
 
 class Leaderboard extends Component {
-
-  showTopScores = 3
-
   render() {
-    const { users } = this.props;
+    const { displayUsers, users } = this.props;
     return (
       <div className="section">
         <div className="container">
           <h1 className="is-size-1 is-uppercase has-text-centered">Leaderboard</h1>
           <hr/>
-          <UserScoreList users={users.slice(0, this.showTopScores)} />
+          <UserScoreList users={users.slice(0, displayUsers)} />
         </div>
       </div>
     )
