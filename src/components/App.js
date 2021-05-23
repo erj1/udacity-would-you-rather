@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading";
 import { loadInitialData } from '../actions/shared';
@@ -24,11 +24,13 @@ class App extends Component {
       : <section className="section">
           <div className="container is-max-desktop">
             <NavBar />
-            <Route path='/' exact component={Dashboard} />
-            <Route path='/questions/:id' component={QuestionDetails} />
-            <Route path='/add' component={QuestionNew} />
-            <Route path='/leaderboard' component={Leaderboard} />
-            <Route component={Error404} />
+            <Switch>
+              <Route path='/' exact component={Dashboard} />
+              <Route path='/questions/:id' component={QuestionDetails} />
+              <Route path='/add' component={QuestionNew} />
+              <Route path='/leaderboard' component={Leaderboard} />
+              <Route component={Error404} />
+            </Switch>
           </div>
         </section>
   }
