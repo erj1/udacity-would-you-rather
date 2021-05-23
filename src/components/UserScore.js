@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 
 const UserScore = (props) => {
-  const { className, isAuthedUser, user } = props;
+  const { isAuthedUser, user } = props;
   const totalQuestions = user.questions.length || 0;
   const totalAnswers = Object.keys(user.answers).length || 0;
   const styles = clsx(['media', 'box'], isAuthedUser && 'has-background-primary-light')
