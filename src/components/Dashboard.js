@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import clsx from "clsx";
 import '@creativebulma/bulma-badge/dist/bulma-badge.min.css';
 import CurrentQuestions from './CurrentQuestions';
 import PastQuestions from "./PastQuestions";
@@ -14,11 +15,6 @@ class Dashboard extends Component {
 
   state = {
     activeTabName: this.tabs[0].name
-  }
-
-  isActive = tabName => {
-    const { activeTabName } = this.state;
-    return tabName === activeTabName ? 'is-active': '';
   }
 
   selectTab = (tabName) => {
@@ -38,7 +34,7 @@ class Dashboard extends Component {
             <ul>
               {this.tabs.map(tab => (
                 <li key={tab.name}
-                    className={this.isActive(tab.name)}
+                    className={ clsx(tab.name === activeTabName && 'is-active') }
                     onClick={() => {this.selectTab(tab.name)}}>
                   <a>{tab.display}</a>
                 </li>

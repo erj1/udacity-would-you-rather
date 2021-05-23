@@ -9,6 +9,7 @@ import QuestionDetails from "./QuestionDetails";
 import Login from "./Login";
 import QuestionNew from "./QuestionNew";
 import Leaderboard from "./Leaderboard";
+import { Error404 } from "./errors";
 
 class App extends Component {
 
@@ -27,6 +28,7 @@ class App extends Component {
             <Route path='/questions/:id' component={QuestionDetails} />
             <Route path='/add' component={QuestionNew} />
             <Route path='/leaderboard' component={Leaderboard} />
+            <Route component={Error404} />
           </div>
         </section>
   }

@@ -7,7 +7,6 @@ class Login extends Component {
 
   state = {
     authedUser: '',
-
   }
 
   componentDidMount() {
@@ -57,7 +56,10 @@ class Login extends Component {
                   </div>
                   <div className="field">
                     <div className="control">
-                      <button className="button is-link is-fullwidth" disabled={authedUser === ''}>Log In As User</button>
+                      <button
+                        className="button is-link is-fullwidth"
+                        disabled={authedUser === ''}
+                      >Log In As User</button>
                     </div>
                   </div>
                 </form>
