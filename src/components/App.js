@@ -14,7 +14,7 @@ import { Error404 } from "./errors";
 class App extends Component {
 
   componentDidMount() {
-    this.props.dispatch(loadInitialData());
+    this.props.loadInitialData();
   }
 
   renderApp() {
@@ -55,4 +55,4 @@ function mapStateToProps({users, questions, authedUser}) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { loadInitialData })(App);
