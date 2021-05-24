@@ -13,7 +13,6 @@ export function handleSaveQuestionAnswer(questionAnswer) {
     return postQuestionAnswer(questionAnswer)
       .then(() => {
         dispatch(saveQuestionAnswer(questionAnswer));
-        dispatch(saveUserAnswer(questionAnswer));
       })
       .then(() => dispatch(hideLoading()))
       .catch((e) => {

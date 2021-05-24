@@ -1,10 +1,11 @@
-import { USER_ANSWER_SAVE, USER_GET_ALL, USER_QUESTION_SAVE } from "../actions/users";
+import { USER_GET_ALL, USER_QUESTION_SAVE } from "../actions/users";
+import { QUESTION_ANSWER_SAVE } from "../actions/questions";
 
 
 export default function users (state = {}, action) {
   switch (action.type) {
 
-    case USER_ANSWER_SAVE:
+    case QUESTION_ANSWER_SAVE:
       const user = state[action.authedUser];
       return {
         ...state,

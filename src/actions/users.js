@@ -1,7 +1,6 @@
 import { fetchUserData } from "../api";
 
 export const USER_GET_ALL = 'USER_GET_ALL';
-export const USER_ANSWER_SAVE = 'USER_ANSWER_SAVE';
 export const USER_QUESTION_SAVE = 'USER_QUESTION_SAVE';
 
 
@@ -19,15 +18,6 @@ export function getUsers(users) {
     type: USER_GET_ALL,
     users
   };
-}
-
-export function saveUserAnswer({ authedUser, question_id, answer }) {
-  return {
-    type: USER_ANSWER_SAVE,
-    authedUser,
-    question_id,
-    answer
-  }
 }
 
 export function saveUserQuestion({id, author}) {
